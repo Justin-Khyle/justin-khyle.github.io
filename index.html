@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Justin Khyle</title>
 <meta name="description" content="Justin Khyle — frontend developer and photographer based in the San Francisco Bay Area.">
@@ -96,7 +97,7 @@
     overflow: hidden;
     transition: border-color .35s ease, transform .35s ease;
   }
-  .door:hover, .door:focus-visible { transform: translateY(-4px); outline: none; }
+  .door:hover, .door:focus-visible { transform: translateY(-4px); }
   .door.dev:hover, .door.dev:focus-visible { border-color: var(--code); }
   .door.photo:hover, .door.photo:focus-visible { border-color: var(--film); }
 
@@ -133,7 +134,7 @@
 
   /* ── dev card motif: code lines ── */
   .art { position: relative; height: 130px; margin-bottom: 1rem; }
-  .code-lines { font-family: var(--mono); font-size: .8rem; line-height: 1.7; color: #4b4740; }
+  .code-lines { font-family: var(--mono); font-size: .8rem; line-height: 1.7; color: var(--muted); }
   .code-lines b { color: var(--code); font-weight: 400; }
   .code-lines i { color: var(--ink); font-style: normal; opacity: .7; }
   .cursor {
@@ -229,7 +230,13 @@
     z-index: 20;
   }
   .flash.go { animation: flash .45s ease-out; }
-  @keyframes flash { 0% { opacity: .55; } 100% { opacity: 0; } }
+  @keyframes flash { 0% { opacity: .35; } 100% { opacity: 0; } }
+
+  /* ── keyboard focus ── */
+  a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 6px; }
+  .door.dev:focus-visible { outline-color: var(--code); }
+  .door.photo:focus-visible { outline-color: var(--film); }
+  .door:focus-visible .go span { transform: translateX(6px); }
 
   footer {
     border-top: 1px solid var(--line);
@@ -313,7 +320,7 @@
 
 <footer>
   <span>© <span id="yr">2026</span> Justin Khyle</span>
-  <nav>
+  <nav aria-label="Social links">
     <a class="icon" href="https://github.com/Justin-Khyle" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
   </nav>
 </footer>
@@ -352,7 +359,11 @@
     var flash = document.querySelector(".flash");
     if (!cam || !flash) return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var last = 0;
     cam.addEventListener("mouseenter", function () {
+      var now = Date.now();
+      if (now - last < 1500) return; // never more than one flash per 1.5s
+      last = now;
       flash.classList.remove("go");
       void flash.offsetWidth; // restart animation
       flash.classList.add("go");
