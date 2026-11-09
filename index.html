@@ -183,6 +183,54 @@
     background: var(--bg);
   }
 
+  /* ── hover interactions: header ── */
+  .eyebrow { cursor: default; transition: letter-spacing .4s ease, color .4s ease; }
+  .eyebrow:hover { letter-spacing: .3em; color: var(--ink); }
+
+  h1 { cursor: default; }
+  h1 .ch {
+    display: inline-block;
+    transition: transform .3s cubic-bezier(.3,1.6,.5,1), font-weight .3s ease, color .3s ease;
+  }
+  h1 .ch:hover { transform: translateY(-.1em) rotate(-3deg); font-weight: 700; color: var(--film); }
+  h1 .ch:has(+ .ch:hover), h1 .ch:hover + .ch { transform: translateY(-.04em); font-weight: 500; }
+  h1 em .ch:hover { color: var(--code); }
+
+  .intro .c, .intro .f {
+    position: relative;
+    cursor: default;
+    padding: 0 .1em;
+    border-radius: 3px;
+    transition: background .25s ease, color .25s ease;
+  }
+  .intro .c:hover {
+    font-family: var(--mono);
+    font-size: .92em;
+    background: var(--code);
+    color: var(--bg);
+  }
+  .intro .c:hover::after {
+    content: "";
+    display: inline-block;
+    width: .5em; height: .95em;
+    margin-left: .15em;
+    vertical-align: -2px;
+    background: var(--bg);
+    animation: blink 1s steps(1) infinite;
+  }
+  .intro .f:hover { background: var(--film); color: var(--bg); }
+
+  /* camera shutter flash */
+  .flash {
+    position: fixed; inset: 0;
+    background: #fff8ec;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+  }
+  .flash.go { animation: flash .45s ease-out; }
+  @keyframes flash { 0% { opacity: .55; } 100% { opacity: 0; } }
+
   footer {
     border-top: 1px solid var(--line);
     padding: 1.25rem clamp(1.5rem, 6vw, 5rem);
@@ -211,10 +259,11 @@
 </style>
 </head>
 <body>
+<div class="flash" aria-hidden="true"></div>
 
 <header>
   <p class="eyebrow rise d1">San Francisco Bay Area</p>
-  <h1 class="rise d2">Justin <em>Khyle</em></h1>
+  <h1 class="rise d2" aria-label="Justin Khyle">Justin <em>Khyle</em></h1>
   <p class="intro rise d3">
     Creating with a <span class="c">computer</span> and a <span class="f">camera</span>.
   </p>
@@ -267,6 +316,44 @@
 
 <script>
   try { document.getElementById("yr").textContent = new Date().getFullYear(); } catch (e) {}
+
+  // split the name into individually hoverable letters
+  (function () {
+    var h1 = document.querySelector("h1");
+    if (!h1) return;
+    function split(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          n.textContent.split("").forEach(function (ch) {
+            if (ch === " ") { frag.appendChild(document.createTextNode(" ")); return; }
+            var s = document.createElement("span");
+            s.className = "ch";
+            s.setAttribute("aria-hidden", "true");
+            s.textContent = ch;
+            frag.appendChild(s);
+          });
+          node.replaceChild(frag, n);
+        } else if (n.nodeType === 1) {
+          split(n);
+        }
+      });
+    }
+    split(h1);
+  })();
+
+  // shutter flash when hovering "camera"
+  (function () {
+    var cam = document.querySelector(".intro .f");
+    var flash = document.querySelector(".flash");
+    if (!cam || !flash) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    cam.addEventListener("mouseenter", function () {
+      flash.classList.remove("go");
+      void flash.offsetWidth; // restart animation
+      flash.classList.add("go");
+    });
+  })();
 </script>
 </body>
 </html>
