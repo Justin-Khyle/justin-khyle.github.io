@@ -118,6 +118,7 @@
     .projects-grid > :nth-child(3) { animation-delay: 0.85s; }
     .projects-grid > :nth-child(4) { animation-delay: 0.95s; }
     .projects-grid > :nth-child(5) { animation-delay: 1.05s; }
+    .projects-grid > :nth-child(6) { animation-delay: 1.15s; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; }
     }
@@ -196,6 +197,42 @@
       <div class="project-card">
         <div class="project-header">
           <div>
+            <div class="project-title">FAT File System in C</div>
+            <div class="project-subtitle">CSC 415 · team of 5</div>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Justin-Khyle/fat-filesystem" class="project-link" target="_blank">github →</a>
+          </div>
+        </div>
+        <p class="project-desc">Built a working FAT-based file system in C on a virtual disk volume as a 5-person team. I designed the directory entry format and root directory setup, and implemented mkdir (following FAT block chains so writes stay correct after space is freed), seek in the buffered I/O layer, and rename/move across directories. Verified on-disk structures with hex dumps and worked through merge conflicts in a shared Git repo.</p>
+        <div class="project-tags">
+          <span class="project-tag">C</span>
+          <span class="project-tag">File Systems</span>
+          <span class="project-tag">FAT</span>
+          <span class="project-tag green">Buffered I/O</span>
+          <span class="project-tag amber">Team / Git</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">CacheManager System (CSC 340)</div>
+          <div class="project-links">
+            <a href="https://github.com/SFSU-CSC-340-3/milestone-3-cache-manager-Justin-Khyle" class="project-link" target="_blank">github →</a>
+          </div>
+        </div>
+        <p class="project-desc">~900-line C++ system integrating a doubly linked list, hash table, and binary search tree into a unified cache manager. Extended with MySQL database integration for persistent storage.</p>
+        <div class="project-tags">
+          <span class="project-tag">C++</span>
+          <span class="project-tag">Data Structures</span>
+          <span class="project-tag amber">MySQL</span>
+          <span class="project-tag green">OOP</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div>
             <div class="project-title">YT → MP3 Converter</div>
             <div class="project-subtitle">personal project · full-stack</div>
           </div>
@@ -256,42 +293,6 @@
           <span class="project-tag">Stack-based VM</span>
           <span class="project-tag green">RuntimeStack</span>
           <span class="project-tag amber">Maven</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-header">
-          <div>
-            <div class="project-title">FAT File System in C</div>
-            <div class="project-subtitle">CSC 415 · team of 5</div>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/Justin-Khyle/fat-filesystem" class="project-link" target="_blank">github →</a>
-          </div>
-        </div>
-        <p class="project-desc">Built a working FAT-based file system in C on a virtual disk volume as a 5-person team. I designed the directory entry format and root directory setup, and implemented mkdir (following FAT block chains so writes stay correct after space is freed), seek in the buffered I/O layer, and rename/move across directories. Verified on-disk structures with hex dumps and worked through merge conflicts in a shared Git repo.</p>
-        <div class="project-tags">
-          <span class="project-tag">C</span>
-          <span class="project-tag">File Systems</span>
-          <span class="project-tag">FAT</span>
-          <span class="project-tag green">Buffered I/O</span>
-          <span class="project-tag amber">Team / Git</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-title">CacheManager System (CSC 340)</div>
-          <div class="project-links">
-            <a href="https://github.com/SFSU-CSC-340-3/milestone-3-cache-manager-Justin-Khyle" class="project-link" target="_blank">github →</a>
-          </div>
-        </div>
-        <p class="project-desc">~900-line C++ system integrating a doubly linked list, hash table, and binary search tree into a unified cache manager. Extended with MySQL database integration for persistent storage.</p>
-        <div class="project-tags">
-          <span class="project-tag">C++</span>
-          <span class="project-tag">Data Structures</span>
-          <span class="project-tag amber">MySQL</span>
-          <span class="project-tag green">OOP</span>
         </div>
       </div>
 
